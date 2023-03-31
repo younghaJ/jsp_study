@@ -1,3 +1,4 @@
+<%@page import="java.util.Vector"%>
 <%@page import="ch15.BCommentBean"%>
 <%@page import="ch15.BoardBean"%>
 <%@page import="ch15.UtilMgr"%>
@@ -159,7 +160,36 @@
 <!-- 댓글 입력폼 End -->
  <hr/>
  <!-- 댓글 List Start -->
-
+<%
+	Vector<BCommentBean> cvlist = cmgr.getBComment(num);
+	if( !cvlist.isEmpty() ){
+		//out.println(cvlist.size());
+	%>
+		<table>
+			<%
+				for(int i = 0; i<cvlist.size();i++){
+					BCommentBean cbean = cvlist.get(i);
+					int cnum = cbean.getCnum();
+					String cname = cbean.getName();
+					String comment = cbean.getComment();
+					String cregdate = cbean.getRegdate();
+			%>
+				<tr>
+					<td colspan="3" width="600"><b><%=cname%></b></td>
+				</tr>
+				<tr>
+					<td>댓글:<%=comment%></td>
+					<td align="right"><%=cregdate%></td>
+					<td align="center" valign="middle">
+					<input type="button" value="삭제" onclick="cDel('<%=cnum%>')">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3"><br></td>
+				</tr>
+			<% } %>
+		</table>
+	<% } %>
  <!-- 댓글 List End -->
  [ <a href="javascript:list()" >리스트</a> | 
  <a href="update.jsp?nowPage=<%=nowPage%>&num=<%=num%>&numPerPage=<%=numPerPage%>" >수 정</a> |
